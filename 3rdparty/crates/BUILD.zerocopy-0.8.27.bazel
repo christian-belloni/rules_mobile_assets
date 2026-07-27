@@ -6,7 +6,11 @@
 #     bazel run @@//3rdparty:crates_vendor
 ###############################################################################
 
-load("@rules_rust//cargo:defs.bzl", "cargo_toml_env_vars")
+load(
+    "@rules_rust//cargo:defs.bzl",
+    "cargo_build_script",
+    "cargo_toml_env_vars",
+)
 load("@rules_rust//rust:defs.bzl", "rust_library")
 
 package(default_visibility = ["//visibility:public"])
@@ -17,7 +21,7 @@ cargo_toml_env_vars(
 )
 
 rust_library(
-    name = "png",
+    name = "zerocopy",
     srcs = glob(
         include = ["**/*.rs"],
         allow_empty = True,
@@ -34,8 +38,16 @@ rust_library(
             "WORKSPACE.bazel",
         ],
     ),
+    crate_features = [
+        "derive",
+        "simd",
+        "zerocopy-derive",
+    ],
     crate_root = "src/lib.rs",
-    edition = "2018",
+    edition = "2021",
+    proc_macro_deps = [
+        "@id__zerocopy-derive-0.8.27//:zerocopy_derive",
+    ],
     rustc_env_files = [
         ":cargo_toml_env_vars",
     ],
@@ -44,7 +56,7 @@ rust_library(
     ],
     tags = [
         "cargo-bazel",
-        "crate-name=png",
+        "crate-name=zerocopy",
         "manual",
         "noclippy",
         "norustfmt",
@@ -106,12 +118,72 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-uefi": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "0.17.13",
+    version = "0.8.27",
     deps = [
-        "@id__bitflags-1.3.2//:bitflags",
-        "@id__crc32fast-1.4.2//:crc32fast",
-        "@id__fdeflate-0.3.4//:fdeflate",
-        "@id__flate2-1.0.35//:flate2",
-        "@id__miniz_oxide-0.7.4//:miniz_oxide",
+        "@id__zerocopy-0.8.27//:build_script_build",
     ],
+)
+
+cargo_build_script(
+    name = "_bs",
+    srcs = glob(
+        include = ["**/*.rs"],
+        allow_empty = True,
+    ),
+    compile_data = glob(
+        include = ["**"],
+        allow_empty = True,
+        exclude = [
+            "**/* *",
+            "**/*.rs",
+            ".tmp_git_root/**/*",
+            "BUILD",
+            "BUILD.bazel",
+            "WORKSPACE",
+            "WORKSPACE.bazel",
+        ],
+    ),
+    crate_features = [
+        "derive",
+        "simd",
+        "zerocopy-derive",
+    ],
+    crate_name = "build_script_build",
+    crate_root = "build.rs",
+    data = glob(
+        include = ["**"],
+        allow_empty = True,
+        exclude = [
+            "**/* *",
+            ".tmp_git_root/**/*",
+            "BUILD",
+            "BUILD.bazel",
+            "WORKSPACE",
+            "WORKSPACE.bazel",
+        ],
+    ),
+    edition = "2021",
+    emit_warnings = False,
+    pkg_name = "zerocopy",
+    rustc_env_files = [
+        ":cargo_toml_env_vars",
+    ],
+    rustc_flags = [
+        "--cap-lints=allow",
+    ],
+    tags = [
+        "cargo-bazel",
+        "crate-name=zerocopy",
+        "manual",
+        "noclippy",
+        "norustfmt",
+    ],
+    version = "0.8.27",
+    visibility = ["//visibility:private"],
+)
+
+alias(
+    name = "build_script_build",
+    actual = ":_bs",
+    tags = ["manual"],
 )

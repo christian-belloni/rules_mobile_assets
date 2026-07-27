@@ -17,7 +17,7 @@ cargo_toml_env_vars(
 )
 
 rust_library(
-    name = "png",
+    name = "moxcms",
     srcs = glob(
         include = ["**/*.rs"],
         allow_empty = True,
@@ -34,8 +34,24 @@ rust_library(
             "WORKSPACE.bazel",
         ],
     ),
+    crate_features = [
+        "avx",
+        "avx_luts",
+        "avx_shaper_fixed_point_paths",
+        "avx_shaper_paths",
+        "default",
+        "lut",
+        "neon",
+        "neon_luts",
+        "neon_shaper_fixed_point_paths",
+        "neon_shaper_paths",
+        "sse",
+        "sse_luts",
+        "sse_shaper_fixed_point_paths",
+        "sse_shaper_paths",
+    ],
     crate_root = "src/lib.rs",
-    edition = "2018",
+    edition = "2024",
     rustc_env_files = [
         ":cargo_toml_env_vars",
     ],
@@ -44,7 +60,7 @@ rust_library(
     ],
     tags = [
         "cargo-bazel",
-        "crate-name=png",
+        "crate-name=moxcms",
         "manual",
         "noclippy",
         "norustfmt",
@@ -106,12 +122,9 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-uefi": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "0.17.13",
+    version = "0.8.1",
     deps = [
-        "@id__bitflags-1.3.2//:bitflags",
-        "@id__crc32fast-1.4.2//:crc32fast",
-        "@id__fdeflate-0.3.4//:fdeflate",
-        "@id__flate2-1.0.35//:flate2",
-        "@id__miniz_oxide-0.7.4//:miniz_oxide",
+        "@id__num-traits-0.2.19//:num_traits",
+        "@id__pxfm-0.1.30//:pxfm",
     ],
 )

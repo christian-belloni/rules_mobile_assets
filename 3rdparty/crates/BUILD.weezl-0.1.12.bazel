@@ -17,7 +17,7 @@ cargo_toml_env_vars(
 )
 
 rust_library(
-    name = "flate2",
+    name = "weezl",
     srcs = glob(
         include = ["**/*.rs"],
         allow_empty = True,
@@ -35,10 +35,9 @@ rust_library(
         ],
     ),
     crate_features = [
-        "any_impl",
+        "alloc",
         "default",
-        "miniz_oxide",
-        "rust_backend",
+        "std",
     ],
     crate_root = "src/lib.rs",
     edition = "2018",
@@ -50,7 +49,7 @@ rust_library(
     ],
     tags = [
         "cargo-bazel",
-        "crate-name=flate2",
+        "crate-name=weezl",
         "manual",
         "noclippy",
         "norustfmt",
@@ -112,9 +111,5 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-uefi": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "1.0.33",
-    deps = [
-        "@id__crc32fast-1.4.2//:crc32fast",
-        "@id__miniz_oxide-0.8.0//:miniz_oxide",
-    ],
+    version = "0.1.12",
 )

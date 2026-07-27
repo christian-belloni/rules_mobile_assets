@@ -17,7 +17,7 @@ cargo_toml_env_vars(
 )
 
 rust_library(
-    name = "png",
+    name = "image",
     srcs = glob(
         include = ["**/*.rs"],
         allow_empty = True,
@@ -34,8 +34,16 @@ rust_library(
             "WORKSPACE.bazel",
         ],
     ),
+    crate_features = [
+        "bmp",
+        "ico",
+        "jpeg",
+        "png",
+        "tiff",
+        "webp",
+    ],
     crate_root = "src/lib.rs",
-    edition = "2018",
+    edition = "2021",
     rustc_env_files = [
         ":cargo_toml_env_vars",
     ],
@@ -44,7 +52,7 @@ rust_library(
     ],
     tags = [
         "cargo-bazel",
-        "crate-name=png",
+        "crate-name=image",
         "manual",
         "noclippy",
         "norustfmt",
@@ -106,12 +114,16 @@ rust_library(
         "@rules_rust//rust/platform:x86_64-unknown-uefi": [],
         "//conditions:default": ["@platforms//:incompatible"],
     }),
-    version = "0.17.13",
+    version = "0.25.10",
     deps = [
-        "@id__bitflags-1.3.2//:bitflags",
-        "@id__crc32fast-1.4.2//:crc32fast",
-        "@id__fdeflate-0.3.4//:fdeflate",
-        "@id__flate2-1.0.35//:flate2",
-        "@id__miniz_oxide-0.7.4//:miniz_oxide",
+        "@id__bytemuck-1.18.0//:bytemuck",
+        "@id__byteorder-lite-0.1.0//:byteorder_lite",
+        "@id__image-webp-0.2.4//:image_webp",
+        "@id__moxcms-0.8.1//:moxcms",
+        "@id__num-traits-0.2.19//:num_traits",
+        "@id__png-0.18.1//:png",
+        "@id__tiff-0.11.3//:tiff",
+        "@id__zune-core-0.5.1//:zune_core",
+        "@id__zune-jpeg-0.5.15//:zune_jpeg",
     ],
 )

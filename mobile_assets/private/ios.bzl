@@ -70,7 +70,7 @@ def _generate_ios_app_icon(ctx, app_icon, common_directory):
 
     universal_icon = ctx.actions.declare_file("%s/universal.png" % base_directory)
 
-    args = ["--svg", app_icon[DefaultInfo].files.to_list()[0].path, "--size", "1024", "--out", universal_icon.path]
+    args = ["resize", "--svg", app_icon[DefaultInfo].files.to_list()[0].path, "--size", "1024", "--out", universal_icon.path]
 
     ctx.actions.run(
         inputs = app_icon.files,

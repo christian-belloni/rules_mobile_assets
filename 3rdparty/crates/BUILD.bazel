@@ -44,6 +44,18 @@ alias(
 )
 
 alias(
+    name = "image-0.25.10",
+    actual = "@id__image-0.25.10//:image",
+    tags = ["manual"],
+)
+
+alias(
+    name = "image",
+    actual = "@id__image-0.25.10//:image",
+    tags = ["manual"],
+)
+
+alias(
     name = "image-webp-0.2.4",
     actual = "@id__image-webp-0.2.4//:image_webp",
     tags = ["manual"],

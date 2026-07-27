@@ -9,7 +9,7 @@ bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 bazel_dep(name = "rules_rust", version = "0.71.2")
 
 deps = use_extension("@rules_mobile_assets//mobile_assets/private:extensions.bzl", "i")
-use_repo(deps, "id__clap-4.5.17", "id__resvg-0.43.0", "id__image-webp-0.2.4")
+use_repo(deps, "id__clap-4.5.17", "id__image-0.25.10", "id__image-webp-0.2.4", "id__resvg-0.43.0")
 
 bazel_dep(name = "apple_support", version = "2.6.1", dev_dependency = True, repo_name = "build_bazel_apple_support")
 bazel_dep(name = "stardoc", version = "0.8.1", dev_dependency = True)

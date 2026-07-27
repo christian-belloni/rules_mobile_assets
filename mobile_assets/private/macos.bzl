@@ -144,7 +144,7 @@ def _generate_macos_app_icon(ctx, app_icon, common_directory):
 
         icon = ctx.actions.declare_file("{}/{}".format(base_directory, filename))
 
-        args = ["--svg", app_icon[DefaultInfo].files.to_list()[0].path, "--size", size, "--out", icon.path]
+        args = ["resize", "--svg", app_icon[DefaultInfo].files.to_list()[0].path, "--size", size, "--out", icon.path]
 
         ctx.actions.run(
             inputs = app_icon.files,

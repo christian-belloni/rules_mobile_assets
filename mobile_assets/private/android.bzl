@@ -33,7 +33,7 @@ def _generate_app_icons(ctx, app_icon, common_directory):
 def _generate_size(ctx, app_icon, common_directory, size_folder, size):
     icon = ctx.actions.declare_file("{}/mipmap-{}/ic_launcher.webp".format(common_directory, size_folder))
 
-    args = ["--svg", app_icon[DefaultInfo].files.to_list()[0].path, "--size", "%s" % size, "--out", icon.path, "--webp"]
+    args = ["resize", "--svg", app_icon[DefaultInfo].files.to_list()[0].path, "--size", "%s" % size, "--out", icon.path, "--webp"]
 
     ctx.actions.run(
         inputs = app_icon.files,
@@ -63,28 +63,44 @@ def _generate_image(ctx, image, common_directory):
 
     base_image_dest = ctx.actions.declare_file("{}/drawable/{}.png".format(common_directory, base_image_name))
 
-    cmd = "cp {image} {image_destination}".format(
-        image = base_image.path,
-        image_destination = base_image_dest.path,
-    )
+    # cmd = "cp {image} {image_destination}".format(
+    #     image = base_image.path,
+    #     image_destination = base_image_dest.path,
+    # )
 
-    ctx.actions.run_shell(
-        outputs = [base_image_dest],
-        command = cmd,
+    # ctx.actions.run_shell(
+    #     outputs = [base_image_dest],
+    #     command = cmd,
+    #     inputs = [base_image],
+    # )
+
+    ctx.actions.run(
         inputs = [base_image],
+        arguments = ["convert", "--image", base_image.path, "--out", base_image_dest.path],
+        executable = ctx.executable._resizer,
+        outputs = [base_image_dest],
+        mnemonic = "GenerateImage",
     )
 
     dark_image_dest = ctx.actions.declare_file("{}/drawable-night/{}.png".format(common_directory, base_image_name))
 
-    cmd = "cp {image} {image_destination}".format(
-        image = dark_image.path,
-        image_destination = dark_image_dest.path,
-    )
+    # cmd = "cp {image} {image_destination}".format(
+    #     image = dark_image.path,
+    #     image_destination = dark_image_dest.path,
+    # )
 
-    ctx.actions.run_shell(
-        outputs = [dark_image_dest],
-        command = cmd,
+    # ctx.actions.run_shell(
+    #     outputs = [dark_image_dest],
+    #     command = cmd,
+    #     inputs = [dark_image],
+    # )
+
+    ctx.actions.run(
         inputs = [dark_image],
+        arguments = ["convert", "--image", dark_image.path, "--out", dark_image_dest.path],
+        executable = ctx.executable._resizer,
+        outputs = [dark_image_dest],
+        mnemonic = "GenerateImage",
     )
 
     return [base_image_dest, dark_image_dest]

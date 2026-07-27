@@ -115,6 +115,6 @@ rust_library(
     version = "0.13.1",
     deps = [
         "@id__color_quant-1.1.0//:color_quant",
-        "@id__weezl-0.1.8//:weezl",
+        "@id__weezl-0.1.12//:weezl",
     ],
 )

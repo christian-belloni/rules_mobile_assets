@@ -15,5 +15,6 @@ rust_binary(
     "//3rdparty/crates:clap",
     "//3rdparty/crates:image-webp",
     "//3rdparty/crates:resvg",
+    "//3rdparty/crates:image",
   ],
 )

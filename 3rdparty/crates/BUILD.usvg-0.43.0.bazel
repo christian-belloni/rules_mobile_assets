@@ -120,7 +120,7 @@ rust_library(
     deps = [
         "@id__base64-0.22.1//:base64",
         "@id__data-url-0.3.1//:data_url",
-        "@id__flate2-1.0.33//:flate2",
+        "@id__flate2-1.0.35//:flate2",
         "@id__fontdb-0.21.0//:fontdb",
         "@id__imagesize-0.13.0//:imagesize",
         "@id__kurbo-0.11.1//:kurbo",
