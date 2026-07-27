@@ -13,7 +13,12 @@ fn main() {
     let args = Args::parse();
     match args.command {
         Command::Convert { image, out } => {
-            let image = ImageReader::open(&image).unwrap().decode().unwrap();
+            let image = ImageReader::open(&image)
+                .unwrap()
+                .with_guessed_format()
+                .unwrap()
+                .decode()
+                .unwrap();
             let mut out = BufWriter::new(
                 std::fs::OpenOptions::new()
                     .write(true)
