@@ -1,5 +1,5 @@
 load("@aspect_bazel_lib//lib:strings.bzl", "hex")
-load(":common.bzl", "COMMON_ATTRS")
+load(":common.bzl", "copy_image")
 load(":providers.bzl", "ColorProvider", "ColorResourceProvider", "ImageResourceProvider", "LocalizationProvider", "LocalizationResourceProvider", "SharedAssetProvider")
 
 def generate_images(ctx, images, common_directory):
@@ -22,29 +22,11 @@ def _generate_image(ctx, image, common_directory):
 
     base_image_dest = ctx.actions.declare_file("{}/base.png".format(resource_path))
 
-    cmd = "cp {image} {image_destination}".format(
-        image = base_image.path,
-        image_destination = base_image_dest.path,
-    )
-
-    ctx.actions.run_shell(
-        outputs = [base_image_dest],
-        command = cmd,
-        inputs = [base_image],
-    )
+    copy_image(ctx = ctx, image = base_image, dest = base_image_dest)
 
     dark_image_dest = ctx.actions.declare_file("{}/dark.png".format(resource_path))
 
-    cmd = "cp {image} {image_destination}".format(
-        image = dark_image.path,
-        image_destination = dark_image_dest.path,
-    )
-
-    ctx.actions.run_shell(
-        outputs = [dark_image_dest],
-        command = cmd,
-        inputs = [dark_image],
-    )
+    copy_image(ctx = ctx, image = dark_image, dest = dark_image_dest)
 
     contents_json = ctx.actions.declare_file("{}/Contents.json".format(resource_path))
     ctx.actions.run_shell(

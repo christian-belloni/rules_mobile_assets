@@ -1,5 +1,5 @@
 load("@aspect_bazel_lib//lib:strings.bzl", "hex")
-load(":common.bzl", "COMMON_ATTRS")
+load(":common.bzl", "COMMON_ATTRS", "copy_image")
 load(":providers.bzl", "ColorProvider", "ColorResourceProvider", "ImageResourceProvider", "LocalizationProvider", "LocalizationResourceProvider", "SharedAssetProvider")
 
 def _android_assets_impl(ctx):
@@ -63,45 +63,11 @@ def _generate_image(ctx, image, common_directory):
 
     base_image_dest = ctx.actions.declare_file("{}/drawable/{}.png".format(common_directory, base_image_name))
 
-    # cmd = "cp {image} {image_destination}".format(
-    #     image = base_image.path,
-    #     image_destination = base_image_dest.path,
-    # )
-
-    # ctx.actions.run_shell(
-    #     outputs = [base_image_dest],
-    #     command = cmd,
-    #     inputs = [base_image],
-    # )
-
-    ctx.actions.run(
-        inputs = [base_image],
-        arguments = ["convert", "--image", base_image.path, "--out", base_image_dest.path],
-        executable = ctx.executable._resizer,
-        outputs = [base_image_dest],
-        mnemonic = "GenerateImage",
-    )
+    copy_image(ctx = ctx, image = base_image, dest = base_image_dest)
 
     dark_image_dest = ctx.actions.declare_file("{}/drawable-night/{}.png".format(common_directory, base_image_name))
 
-    # cmd = "cp {image} {image_destination}".format(
-    #     image = dark_image.path,
-    #     image_destination = dark_image_dest.path,
-    # )
-
-    # ctx.actions.run_shell(
-    #     outputs = [dark_image_dest],
-    #     command = cmd,
-    #     inputs = [dark_image],
-    # )
-
-    ctx.actions.run(
-        inputs = [dark_image],
-        arguments = ["convert", "--image", dark_image.path, "--out", dark_image_dest.path],
-        executable = ctx.executable._resizer,
-        outputs = [dark_image_dest],
-        mnemonic = "GenerateImage",
-    )
+    copy_image(ctx = ctx, image = dark_image, dest = dark_image_dest)
 
     return [base_image_dest, dark_image_dest]
 
