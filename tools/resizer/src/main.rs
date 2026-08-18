@@ -45,8 +45,10 @@ fn main() {
             webp,
         } => {
             let input = std::fs::canonicalize(&svg).unwrap().to_path_buf();
-            let mut opt = resvg::usvg::Options::default();
-            opt.resources_dir = input.parent().map(|a| a.to_path_buf());
+            let mut opt = resvg::usvg::Options {
+                resources_dir: input.parent().map(|a| a.to_path_buf()),
+                ..Default::default()
+            };
             opt.fontdb_mut().load_system_fonts();
             let svg_data = std::fs::read(&input).unwrap();
             let svg = resvg::usvg::Tree::from_data(&svg_data, &opt).unwrap();
