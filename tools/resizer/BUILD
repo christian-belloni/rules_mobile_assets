@@ -1,5 +1,5 @@
 load("@rules_rust//rust:defs.bzl", "rust_binary")
-load("@i//:defs.bzl", "all_crate_deps")
+load("@rma_crates//:defs.bzl", "all_crate_deps")
 
 exports_files(srcs = [
     "Cargo.lock",

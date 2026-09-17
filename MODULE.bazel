@@ -29,7 +29,7 @@ register_toolchains(
 
 crate = use_extension("@rules_rs//rs:extensions.bzl", "crate", dev_dependency = True)
 crate.from_cargo(
-    name = "i",
+    name = "rma_crates",
     cargo_lock = "//tools/resizer:Cargo.lock",
     cargo_toml = "//tools/resizer:Cargo.toml",
     platform_triples = [
@@ -41,7 +41,7 @@ crate.from_cargo(
         "x86_64-unknown-linux-gnu",
     ],
 )
-use_repo(crate, "i")
+use_repo(crate, "rma_crates")
 
 bazel_dep(name = "apple_support", version = "2.6.1", dev_dependency = True, repo_name = "build_bazel_apple_support")
 bazel_dep(name = "stardoc", version = "0.8.1", dev_dependency = True)
