@@ -7,7 +7,7 @@ bazel_dep(name = "platforms", version = "1.1.0")
 bazel_dep(name = "bazel_skylib", version = "1.8.2")
 bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 
-bazel_dep(name = "rules_rs", version = "0.0.100", dev_dependency = True)
+bazel_dep(name = "rules_rs", version = "0.0.100")
 bazel_dep(name = "llvm", version = "0.8.21", dev_dependency = True)
 
 toolchains = use_extension("@rules_rs//rs/toolchains:module_extension.bzl", "toolchains")
@@ -24,7 +24,7 @@ use_repo(rules_rust, "rules_rust")
 register_toolchains(
     "@default_rust_toolchains//...",
     "@llvm//toolchain:all",
-    dev_dependency = True
+    
 )
 
 crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
