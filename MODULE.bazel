@@ -10,7 +10,7 @@ bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 bazel_dep(name = "rules_rs", version = "0.0.100", dev_dependency = True)
 bazel_dep(name = "llvm", version = "0.8.21", dev_dependency = True)
 
-toolchains = use_extension("@rules_rs//rs/toolchains:module_extension.bzl", "toolchains", dev_dependency = True)
+toolchains = use_extension("@rules_rs//rs/toolchains:module_extension.bzl", "toolchains")
 toolchains.toolchain(
     edition = "2024",
     version = "1.92.0",
@@ -18,7 +18,7 @@ toolchains.toolchain(
 use_repo(toolchains, "default_rust_toolchains")
 
 # This extension is optional but can help keep existing `@rules_rust` references working.
-rules_rust = use_extension("@rules_rs//rs:rules_rust.bzl", "rules_rust", dev_dependency = True)
+rules_rust = use_extension("@rules_rs//rs:rules_rust.bzl", "rules_rust")
 use_repo(rules_rust, "rules_rust")
 
 register_toolchains(
@@ -27,7 +27,7 @@ register_toolchains(
     dev_dependency = True
 )
 
-crate = use_extension("@rules_rs//rs:extensions.bzl", "crate", dev_dependency = True)
+crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
 crate.from_cargo(
     name = "rma_crates",
     cargo_lock = "//tools/resizer:Cargo.lock",
